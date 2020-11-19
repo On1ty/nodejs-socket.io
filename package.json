@@ -1,0 +1,15 @@
+{
+  "name": "nodejs-socket.io",
+  "version": "1.0.0",
+  "description": "I want to learn this sh*t",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "NoobDev",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^3.0.2"
+  }
+}

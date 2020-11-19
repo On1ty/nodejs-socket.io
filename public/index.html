@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+    <title>WebSockets 101</title>
+    <script src="https://cdn.socket.io/socket.io-3.0.1.min.js"></script>
+    <link rel="stylesheet"
+          href="styles.css">
+</head>
+
+<body>
+    <div id="mario-chat">
+        <div class=""
+             id="chat-window">
+            <div class=""
+                 id="output"></div>
+        </div>
+        <input type="text"
+               class=""
+               id="username"
+               placeholder="Username">
+        <input type="text"
+               id="message"
+               placeholder="Enter message">
+        <button class=""
+                id="send">Send</button>
+    </div>
+
+
+    <script>
+        //Make connection
+        const socket = io.connect('http://localhost:3000')
+
+        //Query DOM
+        const message = document.getElementById('message'),
+            username = document.getElementById('username'),
+            btn = document.getElementById('send'),
+            output = document.getElementById('output')
+
+        //Emit events
+
+        btn.addEventListener('click', () => {
+            socket.emit('message', {
+                message: message.value,
+                username: username.value,
+            })
+        })
+
+        //Listen for events
+        socket.on('message', (data) => {
+            output.innerHTML += `<p><strong>${data.id}</strong> ${data.message}</p>`
+        })
+    </script>
+</body>
+
+</html>

@@ -53,11 +53,18 @@
         })
 
         message.addEventListener('keyup', () => {
-            socket.emit('feedback', {
-                username: username.value,
-                length: message.value.length
-            })
+            emit_feedback()
         })
+
+        message.addEventListener('focus', () => {
+            emit_feedback()
+        })
+
+        message.addEventListener('blur', () => {
+            socket.emit('feedback', {
+                length: 0
+            })
+        });
 
         //Listen for events
         socket.on('message', (data) => {
@@ -72,6 +79,13 @@
                 feedback.innerHTML = `<p><em>${data.username}</em> is typing a message...</p>`
             }
         })
+
+        function emit_feedback() {
+            socket.emit('feedback', {
+                username: username.value,
+                length: message.value.length
+            })
+        }
     </script>
 </body>
 

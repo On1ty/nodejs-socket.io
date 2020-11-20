@@ -18,10 +18,10 @@ const io = socket(server)
 io.on('connection', (socket) => {
     console.log('New Client Connected: ', socket.id)
     socket.on('message', (data) => {
-        io.emit('message', {
-            id: socket.id,
-            username: data.username,
-            message: data.message,
-        })
+        io.emit('message', data)
+    })
+
+    socket.on('feedback', (data) => {
+        socket.broadcast.emit('feedback', data)
     })
 })

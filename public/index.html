@@ -17,6 +17,8 @@
              id="chat-window">
             <div class=""
                  id="output"></div>
+            <div class=""
+                 id="feedback"></div>
         </div>
         <input type="text"
                class=""
@@ -38,7 +40,8 @@
         const message = document.getElementById('message'),
             username = document.getElementById('username'),
             btn = document.getElementById('send'),
-            output = document.getElementById('output')
+            output = document.getElementById('output'),
+            feedback = document.getElementById('feedback')
 
         //Emit events
 
@@ -49,9 +52,25 @@
             })
         })
 
+        message.addEventListener('keyup', () => {
+            socket.emit('feedback', {
+                username: username.value,
+                length: message.value.length
+            })
+        })
+
         //Listen for events
         socket.on('message', (data) => {
-            output.innerHTML += `<p><strong>${data.id}</strong> ${data.message}</p>`
+            feedback.innerHTML = ''
+            output.innerHTML += `<p><strong>${data.username}</strong> ${data.message}</p>`
+        })
+
+        socket.on('feedback', (data) => {
+            if (data.length <= 0) {
+                feedback.innerHTML = ''
+            } else {
+                feedback.innerHTML = `<p><em>${data.username}</em> is typing a message...</p>`
+            }
         })
     </script>
 </body>

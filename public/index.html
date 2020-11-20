@@ -26,7 +26,7 @@
                placeholder="Username">
         <input type="text"
                id="message"
-               placeholder="Enter message">
+               placeholder="Press [Enter] to send">
         <button class=""
                 id="send">Send</button>
     </div>
@@ -46,16 +46,16 @@
         //Emit events
 
         btn.addEventListener('click', () => {
-            socket.emit('message', {
-                message: message.value,
-                username: username.value,
-            })
-
-            output.innerHTML +=
-                `<p style="text-align:right"><strong>${username.value}</strong> ${message.value}</p>`
+            emit_message()
+            output_raw_message()
         })
 
-        message.addEventListener('keyup', () => {
+        message.addEventListener('keyup', (e) => {
+            if (e.key === 'Enter' || e.keyCode === 13) {
+                emit_message()
+                output_raw_message()
+                message.value = ''
+            }
             emit_feedback()
         })
 
@@ -89,6 +89,18 @@
                 username: username.value,
                 length: message.value.length
             })
+        }
+
+        function emit_message() {
+            socket.emit('message', {
+                message: message.value,
+                username: username.value,
+            })
+        }
+
+        function output_raw_message() {
+            output.innerHTML +=
+                `<p style="text-align:right"><strong>${username.value}</strong> ${message.value}</p>`
         }
     </script>
 </body>

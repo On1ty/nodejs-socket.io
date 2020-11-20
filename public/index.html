@@ -50,6 +50,9 @@
                 message: message.value,
                 username: username.value,
             })
+
+            output.innerHTML +=
+                `<p style="text-align:right"><strong>${username.value}</strong> ${message.value}</p>`
         })
 
         message.addEventListener('keyup', () => {
@@ -69,7 +72,8 @@
         //Listen for events
         socket.on('message', (data) => {
             feedback.innerHTML = ''
-            output.innerHTML += `<p><strong>${data.username}</strong> ${data.message}</p>`
+            output.innerHTML +=
+                `<p style="text-align:left"><strong>${data.username}</strong> ${data.message}</p>`
         })
 
         socket.on('feedback', (data) => {
